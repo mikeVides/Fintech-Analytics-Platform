@@ -205,3 +205,32 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Project specific - Environment variables and secrets
+.env
+*.key
+*.token
+
+# Generated data files - these can be very large
+data_gen/output/
+*.csv
+*.parquet
+*.json
+
+# Databricks connection files
+.databrickscfg
+
+# MLflow local tracking
+mlruns/
+mlflow.db
+
+# dbt
+warehouse/target/
+warehouse/dbt_packages/
+warehouse/logs/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Local log files
+*.log
