@@ -38,7 +38,7 @@ chain, credit risk, and data operations.
 ## Tools & Technologies
 | Layer | Tools |
 |---|---|
-| Environment | Anaconda |
+| Environment | Anaconda, Python |
 | Data Generation | Faker, NumPy, pandas |
 | Data Platform | Databricks, Delta Lake, PySpark |
 | Data Modeling | dbt Core |
