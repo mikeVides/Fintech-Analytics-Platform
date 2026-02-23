@@ -6,12 +6,12 @@ import random
 from datetime import datetime, timedelta
 
 # ── Configuration — change these numbers to control volume ──
-NUM_CUSTOMERS    = 1000
-NUM_TRANSACTIONS = 10000
-NUM_LOANS        = 2000
-NUM_TOUCHES      = 5000
-NUM_PRODUCTS     = 100
-NUM_EVENTS       = 15000
+NUM_CUSTOMERS    = 10000
+NUM_TRANSACTIONS = 100000
+NUM_LOANS        = 20000
+NUM_TOUCHES      = 50000
+NUM_PRODUCTS     = 1000
+NUM_EVENTS       = 150000
 
 # ── Setup ──
 fake = Faker()
