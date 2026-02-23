@@ -83,7 +83,25 @@ print("NULL means an anonymous visitor with no known identity.")
 
 from pyspark.sql.functions import lit
 
-df_silver = df_nulls.withColumn("silver_load_date", lit(LOAD_DATE))
+df_nulls = df_nulls.withColumn("is_duplicate", lit(False))
+
+print("is_duplicate flag added.")
+print(f"All {df_nulls.count():,} rows marked as is_duplicate = False")
+print("Note: duplicate rows were removed in Cell 3 — surviving rows are all non-duplicates.")
+
+# COMMAND ----------
+
+df_scored = df_nulls.withColumn("data_quality_score", lit(1.0).cast("double"))
+
+print("data_quality_score calculated.")
+print("\nScore distribution:")
+df_scored.groupBy("data_quality_score").count().orderBy("data_quality_score").show()
+
+# COMMAND ----------
+
+from pyspark.sql.functions import lit
+
+df_silver = df_scored.withColumn("silver_load_date", lit(LOAD_DATE))
 
 df_silver.write \
     .format("delta") \

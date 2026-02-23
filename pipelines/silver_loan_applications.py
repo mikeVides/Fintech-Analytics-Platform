@@ -128,7 +128,32 @@ print(f"Loan outliers flagged:      {loan_outliers:,}")
 
 from pyspark.sql.functions import lit
 
-df_silver = df_flagged.withColumn("silver_load_date", lit(LOAD_DATE))
+df_flagged = df_flagged.withColumn("is_duplicate", lit(False))
+
+print("is_duplicate flag added.")
+print(f"All {df_flagged.count():,} rows marked as is_duplicate = False")
+print("Note: duplicate rows were removed in Cell 3 — surviving rows are all non-duplicates.")
+
+# COMMAND ----------
+
+from pyspark.sql.functions import when, col
+
+df_scored = df_flagged \
+    .withColumn("data_quality_score",
+        (1.0
+        - when(col("is_requested_amount_outlier") == True, 0.1).otherwise(0.0)
+        - when(col("is_loan_amount_outlier") == True, 0.1).otherwise(0.0)
+        ).cast("double"))
+
+print("data_quality_score calculated.")
+print("\nScore distribution:")
+df_scored.groupBy("data_quality_score").count().orderBy("data_quality_score").show()
+
+# COMMAND ----------
+
+from pyspark.sql.functions import lit
+
+df_silver = df_scored.withColumn("silver_load_date", lit(LOAD_DATE))
 
 df_silver.write \
     .format("delta") \
