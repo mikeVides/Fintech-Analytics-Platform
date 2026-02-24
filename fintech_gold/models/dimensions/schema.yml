@@ -1,0 +1,120 @@
+version: 2
+
+models:
+  - name: dim_customer
+    description: "Customer dimension table. One row per customer with all descriptive attributes."
+    columns:
+      - name: customer_id
+        description: "Primary key - unique customer identifier"
+        tests:
+          - unique
+          - not_null
+
+      - name: credit_tier
+        description: "Customer credit tier classification"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Prime', 'Near-prime', 'Subprime']
+
+      - name: region
+        description: "Customer geographic region"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Northeast', 'Midwest', 'South', 'West']
+
+      - name: acquisition_channel
+        description: "Channel through which customer was acquired"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Email', 'Social', 'Direct', 'Referral']
+
+      - name: data_quality_score
+        description: "Data quality score between 0 and 1"
+        tests:
+          - not_null
+
+  - name: dim_product
+    description: "Product dimension table. One row per active product."
+    columns:
+      - name: product_id
+        description: "Primary key - unique product identifier"
+        tests:
+          - unique
+          - not_null
+
+      - name: category
+        description: "Product category"
+        tests:
+          - not_null
+
+      - name: stock_status
+        description: "Current stock status derived from stock level vs reorder point"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['In Stock', 'Low Stock', 'Out of Stock']
+
+      - name: margin_band
+        description: "Margin classification derived from margin percentage"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['High Margin', 'Medium Margin', 'Low Margin']
+
+  - name: dim_channel
+    description: "Channel dimension table. One row per unique channel and campaign combination."
+    columns:
+      - name: channel_key
+        description: "Surrogate primary key - hash of channel and campaign"
+        tests:
+          - unique
+          - not_null
+
+      - name: channel
+        description: "Marketing channel name"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Email', 'Social', 'Digital', 'Direct Mail']
+
+      - name: channel_type
+        description: "Channel type classification - Digital or Traditional"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Digital', 'Traditional', 'Other']
+
+  - name: dim_campaign
+    description: "Campaign dimension table. One row per unique campaign."
+    columns:
+      - name: campaign_key
+        description: "Surrogate primary key - hash of campaign and campaign name"
+        tests:
+          - unique
+          - not_null
+
+      - name: campaign_objective
+        description: "Campaign objective classification"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Acquisition', 'Retention', 'Conversion', 'Other']
+
+  - name: dim_date
+    description: "Date dimension table. One row per date from 2020 to 2027."
+    columns:
+      - name: date_id
+        description: "Primary key - unique date"
+        tests:
+          - unique
+          - not_null
+
+      - name: season
+        description: "Season derived from month"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Winter', 'Spring', 'Summer', 'Fall']

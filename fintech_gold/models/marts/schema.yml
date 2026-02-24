@@ -1,0 +1,101 @@
+version: 2
+
+models:
+  - name: mart_channel_performance
+    description: "Channel performance mart. Pre-aggregated marketing metrics per channel and campaign combination. Designed for marketing ROI dashboards."
+    columns:
+      - name: channel
+        description: "Marketing channel name"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Email', 'Social', 'Digital', 'Direct Mail']
+
+      - name: total_touches
+        description: "Total number of marketing touches for this channel/campaign combination"
+        tests:
+          - not_null
+
+      - name: total_spend
+        description: "Total marketing spend in dollars"
+        tests:
+          - not_null
+
+      - name: conversion_rate_pct
+        description: "Percentage of touches that resulted in a conversion"
+        tests:
+          - not_null
+
+  - name: mart_cohort_analysis
+    description: "Cohort analysis mart. Tracks customer transaction behavior over time grouped by signup month. Designed for retention analysis."
+    columns:
+      - name: cohort_month
+        description: "Month the customer cohort signed up - formatted as yyyy-MM"
+        tests:
+          - not_null
+
+      - name: months_since_signup
+        description: "Number of months since the cohort signed up"
+        tests:
+          - not_null
+
+      - name: active_customers
+        description: "Number of customers active in this cohort month"
+        tests:
+          - not_null
+
+      - name: total_spend
+        description: "Total spend by this cohort in this month"
+        tests:
+          - not_null
+
+  - name: mart_inventory_health
+    description: "Inventory health mart. Pre-aggregated inventory metrics by category and supplier. Designed for operations dashboards."
+    columns:
+      - name: category
+        description: "Product category"
+        tests:
+          - not_null
+
+      - name: supplier
+        description: "Product supplier"
+        tests:
+          - not_null
+
+      - name: total_products
+        description: "Total number of products in this category/supplier combination"
+        tests:
+          - not_null
+
+      - name: avg_margin_pct
+        description: "Average margin percentage across products"
+        tests:
+          - not_null
+
+  - name: mart_credit_risk
+    description: "Credit risk mart. Pre-aggregated risk metrics by credit tier, purpose, and loan term. Designed for risk management dashboards."
+    columns:
+      - name: credit_tier
+        description: "Customer credit tier"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Prime', 'Near-prime', 'Subprime']
+
+      - name: total_applications
+        description: "Total number of loan applications"
+        tests:
+          - not_null
+
+      - name: approval_rate_pct
+        description: "Percentage of applications that were approved"
+        tests:
+          - not_null
+
+      - name: default_rate_pct
+        description: "Percentage of approved loans that defaulted. Null when no loans were approved for this group."
+
+      - name: total_loan_portfolio
+        description: "Total dollar value of approved loans"
+        tests:
+          - not_null

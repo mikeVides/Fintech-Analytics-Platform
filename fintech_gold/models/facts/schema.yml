@@ -1,0 +1,141 @@
+version: 2
+
+models:
+  - name: fct_transactions
+    description: "Transaction fact table. One row per transaction with foreign keys to dimensions."
+    columns:
+      - name: transaction_id
+        description: "Primary key - unique transaction identifier"
+        tests:
+          - unique
+          - not_null
+
+      - name: customer_id
+        description: "Foreign key to dim_customer"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customer')
+              field: customer_id
+
+      - name: transaction_amount
+        description: "Transaction amount in dollars"
+        tests:
+          - not_null
+
+      - name: status
+        description: "Transaction status"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Completed', 'Pending', 'Failed', 'Refunded', 'Unknown']
+
+      - name: product_type
+        description: "Product type associated with transaction"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Credit Card', 'Personal Loan', 'Savings', 'Checking']
+
+  - name: fct_loan_applications
+    description: "Loan applications fact table. One row per application."
+    columns:
+      - name: application_id
+        description: "Primary key - unique application identifier"
+        tests:
+          - unique
+          - not_null
+
+      - name: customer_id
+        description: "Foreign key to dim_customer"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customer')
+              field: customer_id
+
+      - name: approval_status
+        description: "Loan application approval status"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Approved', 'Declined', 'Under Review']
+
+      - name: purpose
+        description: "Loan purpose"
+        tests:
+          - not_null
+
+      - name: requested_amount
+        description: "Amount requested by customer"
+        tests:
+          - not_null
+
+  - name: fct_conversions
+    description: "Conversions fact table. One row per marketing touch."
+    columns:
+      - name: touch_id
+        description: "Primary key - unique touch identifier"
+        tests:
+          - unique
+          - not_null
+
+      - name: customer_id
+        description: "Foreign key to dim_customer"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customer')
+              field: customer_id
+
+      - name: channel
+        description: "Marketing channel"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Email', 'Social', 'Digital', 'Direct Mail']
+
+      - name: is_converted
+        description: "Conversion flag - 1 if converted, 0 if not"
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+
+  - name: fct_marketing_spend
+    description: "Marketing spend fact table. One row per marketing touch."
+    columns:
+      - name: touch_id
+        description: "Primary key - unique touch identifier"
+        tests:
+          - unique
+          - not_null
+
+      - name: customer_id
+        description: "Foreign key to dim_customer"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customer')
+              field: customer_id
+
+      - name: channel_key
+        description: "Foreign key to dim_channel"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_channel')
+              field: channel_key
+
+      - name: campaign_key
+        description: "Foreign key to dim_campaign"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_campaign')
+              field: campaign_key
+
+      - name: touch_cost
+        description: "Cost of the marketing touch in dollars"
+        tests:
+          - not_null
