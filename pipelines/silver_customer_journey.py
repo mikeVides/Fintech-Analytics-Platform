@@ -9,9 +9,9 @@ print(f"Load date:   {LOAD_DATE}")
 
 # COMMAND ----------
 
-df_customers     = spark.read.format("delta").load(f"{SILVER_PATH}/customers")
-df_transactions  = spark.read.format("delta").load(f"{SILVER_PATH}/transactions")
-df_touches       = spark.read.format("delta").load(f"{SILVER_PATH}/marketing_touches")
+df_customers     = spark.read.table("workspace.default.silver_customers")
+df_transactions  = spark.read.table("workspace.default.silver_transactions")
+df_touches       = spark.read.table("workspace.default.silver_marketing_touches")
 
 print(f"Customers loaded:    {df_customers.count():,} rows")
 print(f"Transactions loaded: {df_transactions.count():,} rows")
@@ -91,12 +91,11 @@ df_journey_final = df_journey.withColumn("silver_load_date", lit(LOAD_DATE))
 df_journey_final.write \
     .format("delta") \
     .mode("overwrite") \
-    .partitionBy("silver_load_date") \
     .option("overwriteSchema", "true") \
-    .save(f"{SILVER_PATH}/customer_journey")
+    .saveAsTable("workspace.default.silver_customer_journey")
 
-row_count = spark.read.format("delta").load(f"{SILVER_PATH}/customer_journey").count()
+row_count = spark.read.table("workspace.default.silver_customer_journey").count()
 
 print(f"Silver customer_journey table written successfully.")
 print(f"Total rows: {row_count:,}")
-print(f"Columns: {spark.read.format('delta').load(f'{SILVER_PATH}/customer_journey').columns}")
+print(f"Columns: {spark.read.table('workspace.default.silver_customer_journey').columns}")

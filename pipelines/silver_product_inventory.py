@@ -129,12 +129,11 @@ df_silver = df_scored.withColumn("silver_load_date", lit(LOAD_DATE))
 df_silver.write \
     .format("delta") \
     .mode("overwrite") \
-    .partitionBy("silver_load_date") \
     .option("overwriteSchema", "true") \
-    .save(f"{SILVER_PATH}/product_inventory")
+    .saveAsTable("workspace.default.silver_product_inventory")
 
-row_count = spark.read.format("delta").load(f"{SILVER_PATH}/product_inventory").count()
+row_count = spark.read.table("workspace.default.silver_product_inventory").count()
 
 print(f"Silver product_inventory table written successfully.")
 print(f"Total rows: {row_count:,}")
-print(f"Columns: {spark.read.format('delta').load(f'{SILVER_PATH}/product_inventory').columns}")
+print(f"Columns: {spark.read.table('workspace.default.silver_product_inventory').columns}")

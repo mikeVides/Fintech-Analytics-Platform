@@ -11,7 +11,7 @@ print(f"Load date:   {LOAD_DATE}")
 
 from pyspark.sql.functions import col
 
-df_events = spark.read.format("delta").load(f"{SILVER_PATH}/events_raw")
+df_events = spark.read.table("workspace.default.silver_events_raw")
 
 df_events = df_events.filter(col("is_bot") == False)
 
@@ -101,12 +101,11 @@ df_session_agg = df_session_agg.withColumn("silver_load_date", lit(LOAD_DATE))
 df_session_agg.write \
     .format("delta") \
     .mode("overwrite") \
-    .partitionBy("silver_load_date") \
     .option("overwriteSchema", "true") \
-    .save(f"{SILVER_PATH}/sessions")
+    .saveAsTable("workspace.default.silver_sessions")
 
-row_count = spark.read.format("delta").load(f"{SILVER_PATH}/sessions").count()
+row_count = spark.read.table("workspace.default.silver_sessions").count()
 
 print(f"Silver sessions table written successfully.")
 print(f"Total rows: {row_count:,}")
-print(f"Columns: {spark.read.format('delta').load(f'{SILVER_PATH}/sessions').columns}")
+print(f"Columns: {spark.read.table('workspace.default.silver_sessions').columns}")

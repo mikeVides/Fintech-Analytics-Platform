@@ -106,12 +106,11 @@ df_silver = df_scored.withColumn("silver_load_date", lit(LOAD_DATE))
 df_silver.write \
     .format("delta") \
     .mode("overwrite") \
-    .partitionBy("silver_load_date") \
     .option("overwriteSchema", "true") \
-    .save(f"{SILVER_PATH}/events_raw")
+    .saveAsTable("workspace.default.silver_events_raw")
 
-row_count = spark.read.format("delta").load(f"{SILVER_PATH}/events_raw").count()
+row_count = spark.read.table("workspace.default.silver_events_raw").count()
 
 print(f"Silver events_raw table written successfully.")
 print(f"Total rows: {row_count:,}")
-print(f"Columns: {spark.read.format('delta').load(f'{SILVER_PATH}/events_raw').columns}")
+print(f"Columns: {spark.read.table('workspace.default.silver_events_raw').columns}")
