@@ -25,3 +25,5 @@ models:
       +materialized: table
     marts:
       +materialized: table
+    attribution:
+      +materialized: table
