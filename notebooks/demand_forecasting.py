@@ -1,4 +1,8 @@
 # Databricks notebook source
+# MAGIC %pip install prophet -q
+
+# COMMAND ----------
+
 from prophet import Prophet
 from prophet.diagnostics import cross_validation, performance_metrics
 import pandas as pd
@@ -61,12 +65,12 @@ print(f'Trained on {len(df_train):,} days of loan application data.')
 
 # COMMAND ----------
 
-future = model.make_future_dataframe(periods=180)
+future = model.make_future_dataframe(periods=365)
 
 forecast = model.predict(future)
 
 print(f'Forecast generated for {len(future):,} dates')
-print(f'Future periods:  180 days beyond training data')
+print(f'Future periods:  365 days beyond training data')
 print()
 print(forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].tail(10))
 
@@ -190,3 +194,30 @@ print(forecast_output.head(5))
 # COMMAND ----------
 
 spark.sql("SELECT * FROM default.srv_loan_forecast LIMIT 5").show()
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ## Daily Forecast Refresh — Automation Architecture
+# MAGIC
+# MAGIC In a production environment this notebook would be scheduled to run automatically every day using a **Databricks Job**.
+# MAGIC
+# MAGIC ### How it would be implemented:
+# MAGIC
+# MAGIC 1. **Databricks Jobs** — navigate to Workflows in the Databricks sidebar, create a new Job, attach this notebook, and set a daily schedule trigger (e.g. 6:00 AM every day)
+# MAGIC
+# MAGIC 2. **What happens on each run:**
+# MAGIC    - Prophet model retrains on all available historical data including the previous day
+# MAGIC    - `model.make_future_dataframe(periods=365)` generates a fresh 365-day forecast
+# MAGIC    - `srv_loan_forecast` serving table is overwritten with updated predictions
+# MAGIC    - `created_at` timestamp updates automatically to reflect the refresh time
+# MAGIC
+# MAGIC 3. **Downstream refresh** — after the forecast table updates, a second Job would run `dbt run --select supply_chain` to rebuild all four supply chain models with the latest forecast data
+# MAGIC
+# MAGIC 4. **Alerting** — a third step would query `fct_stockout_early_warning` and send an email or Slack alert if any new STOCKOUT or CRITICAL products are detected
+# MAGIC
+# MAGIC ### How it works:
+# MAGIC - `mode='overwrite'` on the serving table ensures stale predictions are always replaced
+# MAGIC - `model_version` and `created_at` columns provide full auditability
+# MAGIC - The dbt dependency chain ensures supply chain models always use the freshest forecast
+# MAGIC
