@@ -42,7 +42,7 @@ channel_model_summary AS (
         channel,
         COUNT(*)                              AS total_touches,
         ROUND(SUM(touch_cost), 2)             AS total_spend,
-        ROUND(SUM(attributed_conversions), 4) AS attributed_conversions
+        ROUND(SUM(attributed_conversions), 2) AS attributed_conversions
     FROM all_models
     GROUP BY attribution_model, channel
 ),
