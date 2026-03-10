@@ -234,3 +234,6 @@ warehouse/logs/
 
 # Local log files
 *.log
+
+# Tableau Files
+tableau_data/
