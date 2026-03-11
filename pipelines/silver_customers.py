@@ -39,7 +39,9 @@ from pyspark.sql.functions import initcap, lower, upper, when, trim
 df_cased = df_deduped \
     .withColumn("gender",              initcap(lower(col("gender")))) \
     .withColumn("region",              initcap(lower(col("region")))) \
-    .withColumn("acquisition_channel", initcap(lower(col("acquisition_channel")))) \
+    .withColumn("acquisition_channel", 
+        when(initcap(lower(col("acquisition_channel"))) == 'Direct', 'Direct Mail')
+        .otherwise(initcap(lower(col("acquisition_channel"))))) \
     .withColumn("credit_tier",         initcap(lower(col("credit_tier"))))
 
 print("Casing standardized.")
@@ -47,6 +49,8 @@ print("\ngender distinct values after fix:")
 df_cased.groupBy("gender").count().orderBy("count", ascending=False).show()
 print("\nregion distinct values after fix:")
 df_cased.groupBy("region").count().orderBy("count", ascending=False).show()
+print("\nacquisition_channel distinct values after fix:")
+df_cased.groupBy("acquisition_channel").count().orderBy("count", ascending=False).show()
 
 # COMMAND ----------
 

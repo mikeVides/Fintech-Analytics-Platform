@@ -34,10 +34,12 @@ print(f"Duplicates removed: {df_bronze.count() - df_deduped.count():,}")
 
 # COMMAND ----------
 
-from pyspark.sql.functions import initcap, lower, col
+from pyspark.sql.functions import initcap, lower, col, when
 
 df_cased = df_deduped \
-    .withColumn("channel", initcap(lower(col("channel"))))
+    .withColumn("channel",
+        when(initcap(lower(col("channel"))) == 'Digital', 'Referral')
+        .otherwise(initcap(lower(col("channel")))))
 
 print("Casing standardized.")
 print("\nchannel distinct values after fix:")
