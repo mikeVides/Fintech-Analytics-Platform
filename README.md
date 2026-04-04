@@ -31,14 +31,14 @@ insights across marketing, credit risk, supply chain, and demand forecasting.
 
 | Question | Finding |
 |---|---|
-| Which channel acquires customers at the lowest cost? | Email — ~$5 blended CAC vs $127–$150 for all other channels |
-| How does attribution model choice affect budget allocation? | Credit shifts significantly — Email loses share under last-click, gains under time-decay |
-| What is customer retention by channel at 30, 60, 90 days? | Visible in cohort dashboard — retention drops steepest in months 2–3 across all channels |
-| Which credit tier and loan purpose has the highest default risk? | Subprime 8.3% vs Prime 7.8% — Unknown purpose has highest default across all tiers |
-| Which product categories are at stockout risk? | Card Reader 53.5% out-of-stock rate, Prepaid Card 36.6% — both need immediate reorder |
+| Which channel acquires customers at the lowest cost? | Email: ~$5 blended CAC vs $127–$150 for all other channels |
+| How does attribution model choice affect budget allocation? | Credit shifts significantly. Email loses share under last-click, gains under time-decay |
+| What is customer retention by channel at 30, 60, 90 days? | Visible in cohort dashboard, retention drops steepest in months 2–3 across all channels |
+| Which credit tier and loan purpose has the highest default risk? | Subprime 8.3% vs Prime 7.8%, Unknown purpose has highest default across all tiers |
+| Which product categories are at stockout risk? | Card Reader 53.5% out-of-stock rate, Prepaid Card 36.6%. Both need immediate reorder |
 | What does the 365-day loan application forecast show? | Avg 10.25 daily applications, confidence range 6.2–14.2, trained through 8/31/2025 |
 | What revenue opportunity did A/B testing identify? | ~$70M combined annual uplift across 3 tests |
-| How many data quality tests are passing? | 75 / 75 dbt tests passing — zero failures |
+| How many data quality tests are passing? | 75 / 75 dbt tests passing, zero failures |
 
 ---
 
@@ -49,7 +49,7 @@ insights across marketing, credit risk, supply chain, and demand forecasting.
 | Data Engineering | PySpark, ETL pipelines, Delta Lake, window functions, sessionization |
 | Data Modeling | dbt Core, star schema, dimensional modeling, 75 automated tests |
 | Analytics | SQL, cohort analysis, multi-touch attribution (5 models), A/B testing |
-| Forecasting | Prophet time-series model, confidence intervals, MAPE tracking |
+| Forecasting | Prophet time series model, confidence intervals, MAPE tracking |
 | Business Intelligence | Tableau dashboards, KPI development, colorblind-accessible design |
 | Data Quality | Profiling, deduplication, outlier flagging, quality scoring per record |
 | Automation & CI/CD | GitHub Actions, pytest unit tests, ruff linting |
@@ -105,8 +105,8 @@ Serving Views → Tableau Public (5 Dashboards)
 | Phase | What Was Built | Key Deliverable |
 |---|---|---|
 | 1 | Synthetic data generator + Bronze Delta ingestion | 6 tables, 33K dev rows, intentional quality issues |
-| 2 | Silver transforms — dedup, clean, sessionize, quality score | 9 Silver tables, pytest unit tests |
-| 3 | dbt Gold layer — star schema + KPI marts | 29 models, 75 tests passing, lineage DAG |
+| 2 | Silver transforms, dedup, clean, sessionize, quality score | 9 Silver tables, pytest unit tests |
+| 3 | dbt Gold layer, star schema + KPI marts | 29 models, 75 tests passing, lineage DAG |
 | 4 | 5 attribution models + A/B testing + channel ROI | ~$70M revenue opportunity identified |
 | 5 | Prophet demand forecast + inventory stockout warnings | MAPE 27.6%, 0.8% monthly variance |
 | 6 | 5 Tableau dashboards published to Tableau Public | Live shareable URL |
