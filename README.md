@@ -22,7 +22,7 @@
 Customer acquisition costs are rising, loan default rates are unclear,
 and inventory stockout risks are unmonitored. Using Python, SQL, PySpark,
 dbt, and Tableau, I built an end-to-end analytics platform on a synthetic
-FinTech dataset — transforming raw messy data into actionable business
+FinTech dataset, transforming raw messy data into actionable business
 insights across marketing, credit risk, supply chain, and demand forecasting.
 
 ---
@@ -115,4 +115,4 @@ Serving Views → Tableau Public (5 Dashboards)
 
 ## Project Status
 
-Complete — Phases 1–6 Built and Published
+Complete: Phases 1–6 Built and Published
