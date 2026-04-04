@@ -13,7 +13,7 @@
 
 **[→ View Interactive Tableau Dashboard](https://public.tableau.com/app/profile/michael.benavides6128/viz/FinTechAnalyticsPlatform/DashboardChannelPerformance)**
 
-![Dashboard Preview](https://i.imgur.com/VlEFouG.png)
+![Dashboard Preview](https://i.imgur.com/F89q8Bq.png)
 
 ---
 
