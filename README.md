@@ -68,7 +68,6 @@ insights across marketing, credit risk, supply chain, and demand forecasting.
 | Attribution & A/B Testing | Python (scipy, statsmodels), SQL |
 | Forecasting | Prophet (Meta) |
 | Dashboard | Tableau Public |
-| CI/CD | GitHub Actions, pytest, ruff |
 
 ---
 
