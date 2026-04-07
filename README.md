@@ -9,7 +9,7 @@
 
 ---
 
-## 📊 Live Dashboard
+## Live Dashboard
 
 **[→ View Interactive Tableau Dashboard](https://public.tableau.com/app/profile/michael.benavides6128/viz/FinTechAnalyticsPlatform/DashboardChannelPerformance)**
 
